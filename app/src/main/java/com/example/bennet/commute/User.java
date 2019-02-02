@@ -3,9 +3,13 @@ package com.example.bennet.commute;
 public class User {
     public String names;
     public String emails;
-    public int points;
+    public Double points;
 
-    public User(String names, String emails, int points){
+    public User(){
+
+    }
+
+    public User(String names, String emails, Double points){
         this.names = names;
         this.emails=emails;
         this.points=points;
@@ -28,11 +32,11 @@ public class User {
         this.emails = emails;
     }
 
-    public int getPoints() {
+    public Double getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(Double points) {
         this.points = points;
     }
 }

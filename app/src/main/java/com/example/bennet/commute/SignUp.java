@@ -41,7 +41,8 @@ public class SignUp extends AppCompatActivity {
         editPasswordConfirm = findViewById(R.id.edit_password_confirm_signup);
         btnSignUp = findViewById(R.id.submit_button);
 
-
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+      final  DatabaseReference myRef = database.getReference("Users");
 
         firebaseAuth = FirebaseAuth.getInstance();
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +51,8 @@ public class SignUp extends AppCompatActivity {
                 final String name = editName.getText().toString();
                 final String email = editMail.getText().toString();
                 final String password = editPassword.getText().toString();
+
+
                 if (editPasswordConfirm.getText().toString().equals(editPassword.getText().toString())) {
                     if (email.isEmpty()||password.isEmpty()){
                         Toast.makeText(SignUp.this, "There is an empty field", Toast.LENGTH_LONG).show();
@@ -57,12 +60,10 @@ public class SignUp extends AppCompatActivity {
                     else{
                         CreateUserAccount(email, password, name);
 
-                        User user = new User(name, email, 0);
+                        User user = new User(name, email, 0.0);
 
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myRef = database.getReference("Users");
 
-                        myRef.setValue(user);
+                        myRef.child("Users").child(name).setValue(user);
 
                     }
                 }

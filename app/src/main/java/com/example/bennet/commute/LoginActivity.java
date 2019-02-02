@@ -49,7 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         signUpBtn = findViewById(R.id.sign_up_button);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+      final DatabaseReference myRef = database.getReference("Users");
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,8 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                     firebaseAuth.signInWithEmailAndPassword(finalEmail, finalPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            DatabaseReference myRef = database.getReference("Users");
 
                             myRef.addValueEventListener(new ValueEventListener() {
                                 @Override
