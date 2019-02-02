@@ -55,7 +55,7 @@ public class SignUp extends AppCompatActivity {
                         Toast.makeText(SignUp.this, "There is an empty field", Toast.LENGTH_LONG).show();
                     }
                     else{
-                        CreateUserAccount(email, password);
+                        CreateUserAccount(email, password, name);
 
                         User user = new User(name, email, 0);
 
@@ -73,14 +73,14 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    private void CreateUserAccount(final String email, String password) {
+    private void CreateUserAccount(final String email, String password, final String name) {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(SignUp.this, "Account created", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                    i.putExtra("email", email);
+                    i.putExtra("name", name);
                     startActivity(i);
                 }
                 else{
