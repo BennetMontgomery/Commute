@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -44,6 +47,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FusedLocationProviderClient mFusedLocationClient;
     private final int REQUEST_LOCATION = 4;
     private JSONObject mapData;
+
+    EditText origin;
+    EditText finaldest;
+    Button sendInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +123,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        origin = findViewById(R.id.editText);
+        finaldest = findViewById(R.id.editText2);
+        sendInfo = findViewById(R.id.go_button);
+
+        sendInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RouteParser rp = new RouteParser();
+                if (!rp.parse(origin.getText().toString(), true)) {
+                    Toast.makeText(MapsActivity.this, "The origin address is invalid", Toast.LENGTH_LONG).show();
+                }
+
+
+                if (!rp.parse(finaldest.getText().toString(), false)) {
+                    Toast.makeText(MapsActivity.this, "The final destination is invalid", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
+
+
 
 
     /**
