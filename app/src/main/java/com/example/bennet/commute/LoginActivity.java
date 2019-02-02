@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String finalEmail = email.getText().toString();
                 String finalPassword = password.getText().toString();
-                if (email.toString().isEmpty() || password.toString().isEmpty()) {
+                if (email.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
                     Toast.makeText(LoginActivity.this, "There is an empty field here", Toast.LENGTH_LONG).show();
                 } else {
                     firebaseAuth.signInWithEmailAndPassword(finalEmail, finalPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
