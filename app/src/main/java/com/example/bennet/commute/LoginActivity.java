@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import java.util.Map;
 
 
 /**
@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     TextView email, password;
-    Button btn;
+    Button btn, signUpBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         btn = findViewById(R.id.email_sign_in_button);
+        signUpBtn = findViewById(R.id.sign_up_button);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -49,7 +50,8 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuth.signInWithEmailAndPassword(finalEmail, finalPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Intent i = new Intent(getApplicationContext(), LocationTrack.class);
+                        Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                        i.putExtra("email", email.getText().toString());
                         startActivity(i);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -58,6 +60,14 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "IT DID NOT WORK :( ", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), SignUp.class);
+                startActivity(i);
             }
         });
 

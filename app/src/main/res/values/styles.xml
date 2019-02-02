@@ -21,4 +21,7 @@
         <item name="colorAccent">@color/accent_material_dark_1</item>
     </style>
 
+    <style name="CommuteBar" parent="Theme.AppCompat" >
+        <item name="colorAccent">@color/accent_material_dark_1</item>
+    </style>
 </resources>
