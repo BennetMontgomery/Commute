@@ -1,8 +1,8 @@
 package com.example.bennet.commute;
 
 public class RouteParser {
-    String origin;
-    String destination;
+    private String origin;
+    private String destination;
 
     public boolean parse(String val, boolean isOrigin) {
         val.replaceAll("[\\p{Punct}][\\p{Blank}]", " ");
