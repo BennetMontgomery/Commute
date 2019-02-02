@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // Set up the login form.
 
-        email = findViewById(R.id.emailSign);
+        email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         btn = findViewById(R.id.email_sign_in_button);
 
