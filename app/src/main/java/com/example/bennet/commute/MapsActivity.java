@@ -22,7 +22,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private String name;
     private FusedLocationProviderClient mFusedLocationClient;
     private final int REQUEST_LOCATION = 4;
 
@@ -31,8 +30,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         Intent intent = getIntent();
-        name = intent.getStringExtra("name");
-        System.out.println("email (after intent): " + name);
+        String name = intent.getStringExtra("name");
         setTitle("Hello " + name + "!");
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

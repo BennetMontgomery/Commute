@@ -9,7 +9,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +30,7 @@ import java.util.Map;
  */
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "Login";
     FirebaseAuth firebaseAuth;
     TextView email, password;
     Button btn, signUpBtn;
@@ -53,9 +61,26 @@ public class LoginActivity extends AppCompatActivity {
                     firebaseAuth.signInWithEmailAndPassword(finalEmail, finalPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                            i.putExtra("email", email.getText().toString());
-                            startActivity(i);
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference("Users");
+
+                            myRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    User userR = dataSnapshot.getValue(User.class);
+                                    String name = userR.getNames();
+                                    Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                                    i.putExtra("name", name);
+                                    startActivity(i);
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.w(TAG, "Failed to read value.", databaseError.toException());
+                                }
+                            });
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
