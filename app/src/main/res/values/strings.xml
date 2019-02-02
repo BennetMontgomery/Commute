@@ -19,4 +19,6 @@
     <string name="sign_up_button">Sign up</string>
     <string name="submit">Submit</string>
     <string name="reprompt_password">Password (confirm)</string>
+    <string name="go_button">Go</string>
+    <string name="cancel_button">Cancel</string>
 </resources>
