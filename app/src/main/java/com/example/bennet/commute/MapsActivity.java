@@ -34,7 +34,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         Intent intent = getIntent();
-        name = intent.getStringExtra("name");
+        name = intent.getStringExtra("email");
         mFAB = findViewById(R.id.floatingActionButton);
         mFAB.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
