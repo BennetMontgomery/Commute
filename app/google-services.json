@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "240527490468",
+    "firebase_url": "https://commute-3a77a.firebaseio.com",
+    "project_id": "commute-3a77a",
+    "storage_bucket": "commute-3a77a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240527490468:android:796d83cd82c937e3",
+        "android_client_info": {
+          "package_name": "com.example.bennet.commute"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "240527490468-ghef6c5195embh2oir5v9j4ojcpckvqq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bennet.commute",
+            "certificate_hash": "1eee4d9719d9e19971868d5f5af6810c174418fb"
+          }
+        },
+        {
+          "client_id": "240527490468-vl91h8dr0ro6u9kgp8ppshmp088frb55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfFS6dhoF9DkNzI9vfFzA6Rdc6hreMx0Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "240527490468-vl91h8dr0ro6u9kgp8ppshmp088frb55.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
