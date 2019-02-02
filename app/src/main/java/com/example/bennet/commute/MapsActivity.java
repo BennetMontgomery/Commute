@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -20,8 +21,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.Connection;
+import org.jsoup.Connection.Response;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -54,6 +61,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 try {
                     url = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k");
                     System.out.println("URL: " + url.toString());
+                    try {
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                        String jsonString = Jsoup.connect(url.toString()).ignoreContentType(true).execute().body();
+                        System.out.println("JSON: " + jsonString);
+                        JsonParser jp = new JsonParser();
+                        JsonElement json = jp.parse(jsonString);
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
                 } catch (MalformedURLException e) {
                     throw new IllegalArgumentException("invalid url");
                 }
