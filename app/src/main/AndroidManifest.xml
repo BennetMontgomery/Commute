@@ -61,7 +61,7 @@
             android:theme="@style/Commute" />
         <activity
             android:name=".MapsActivity"
-            android:theme="@style/CommuteBar" />
+            android:theme="@style/Commute" />
         <activity android:name=".Rewards"></activity>
     </application>
 
