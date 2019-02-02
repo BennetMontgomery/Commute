@@ -9,8 +9,6 @@ public class RouteParser {
         val = val.replaceAll("[\\p{Punct}]", " ");
 
         if(val.matches("[\\p{Blank}]*[1-9]*([\\p{Blank}]*[a-zA-Z]*)*")) {
-            StringBuilder value = new StringBuilder(val);
-
             if(isOrigin) {
                 this.origin = this.formatForUrl(val);
             } else {
