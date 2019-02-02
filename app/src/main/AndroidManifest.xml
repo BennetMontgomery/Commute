@@ -55,7 +55,13 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".SignUp" />
+        <activity
+            android:name=".SignUp"
+            android:theme="@style/Commute" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:theme="@style/CommuteBar" />
     </application>
 
 </manifest>

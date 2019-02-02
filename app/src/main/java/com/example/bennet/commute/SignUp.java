@@ -25,21 +25,20 @@ public class SignUp extends AppCompatActivity {
     DatabaseReference users;
     private FirebaseAuth firebaseAuth;
 
-    EditText editUsername, editPassword, editPasswordConfirm, editMail;
+    EditText editPassword, editPasswordConfirm, editMail;
 
     Button btnSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_signup);
         database = FirebaseDatabase.getInstance();
         users = database.getReference("Users");
-        editUsername = findViewById(R.id.Name);
-        editMail = findViewById(R.id.Email);
-        editPassword = findViewById(R.id.PWEdit);
-        editPasswordConfirm = findViewById(R.id.PConfirmEdit);
-        btnSignUp = findViewById(R.id.Submit);
+        editMail = findViewById(R.id.edit_email_signup);
+        editPassword = findViewById(R.id.edit_password_signup);
+        editPasswordConfirm = findViewById(R.id.edit_password_confirm_signup);
+        btnSignUp = findViewById(R.id.submit_button);
 
 
 
@@ -49,9 +48,8 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View view) {
                 final String email = editMail.getText().toString();
                 final String password = editPassword.getText().toString();
-                final String name = editUsername.getText().toString();
                 if (editPasswordConfirm.getText().toString().equals(editPassword.getText().toString())) {
-                    if (email.isEmpty()||password.isEmpty()||name.isEmpty()){
+                    if (email.isEmpty()||password.isEmpty()){
                         Toast.makeText(SignUp.this, "There is an empty field", Toast.LENGTH_LONG).show();
                     }
                     else{
@@ -65,13 +63,14 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    private void CreateUserAccount(String email, String password) {
+    private void CreateUserAccount(final String email, String password) {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(SignUp.this, "Account created", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                    i.putExtra("email", email);
                     startActivity(i);
                 }
                 else{
