@@ -54,6 +54,14 @@ public class SignUp extends AppCompatActivity {
                     }
                     else{
                         CreateUserAccount(email, password);
+
+                        User user = new User(email, 0);
+
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference("Users");
+
+                        myRef.setValue(user);
+
                     }
                 }
                 else{

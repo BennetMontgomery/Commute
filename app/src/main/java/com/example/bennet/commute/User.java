@@ -1,23 +1,14 @@
 package com.example.bennet.commute;
 
 public class User {
-    public String names;
+
     public String emails;
     public int points;
 
-    public User(String names, String emails, int points){
-        this.names = names;
+    public User(String emails, int points){
         this.emails=emails;
         this.points=points;
 
-    }
-
-    public String getNames() {
-        return names;
-    }
-
-    public void setNames(String names) {
-        this.names = names;
     }
 
     public String getEmails() {
