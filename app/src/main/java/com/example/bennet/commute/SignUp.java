@@ -80,7 +80,7 @@ public class SignUp extends AppCompatActivity {
                 if (task.isSuccessful()){
                     Toast.makeText(SignUp.this, "Account created", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                    i.putExtra("name", name);
+                    i.putExtra("email", email);
                     startActivity(i);
                 }
                 else{
