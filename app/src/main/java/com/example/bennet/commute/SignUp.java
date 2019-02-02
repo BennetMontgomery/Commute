@@ -25,7 +25,7 @@ public class SignUp extends AppCompatActivity {
     DatabaseReference users;
     private FirebaseAuth firebaseAuth;
 
-    EditText editPassword, editPasswordConfirm, editMail;
+    EditText editName, editPassword, editPasswordConfirm, editMail;
 
     Button btnSignUp;
 
@@ -35,6 +35,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         database = FirebaseDatabase.getInstance();
         users = database.getReference("Users");
+        editName = findViewById(R.id.prompt_name);
         editMail = findViewById(R.id.edit_email_signup);
         editPassword = findViewById(R.id.edit_password_signup);
         editPasswordConfirm = findViewById(R.id.edit_password_confirm_signup);
@@ -46,6 +47,7 @@ public class SignUp extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final String name = editName.getText().toString();
                 final String email = editMail.getText().toString();
                 final String password = editPassword.getText().toString();
                 if (editPasswordConfirm.getText().toString().equals(editPassword.getText().toString())) {
@@ -55,7 +57,7 @@ public class SignUp extends AppCompatActivity {
                     else{
                         CreateUserAccount(email, password);
 
-                        User user = new User(email, 0);
+                        User user = new User(name, email, 0);
 
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference myRef = database.getReference("Users");
