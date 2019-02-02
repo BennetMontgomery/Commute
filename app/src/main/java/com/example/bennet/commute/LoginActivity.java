@@ -46,20 +46,24 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String finalEmail = email.getText().toString();
-                String finalPassword= password.getText().toString();
-                firebaseAuth.signInWithEmailAndPassword(finalEmail, finalPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                        i.putExtra("email", email.getText().toString());
-                        startActivity(i);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this, "IT DID NOT WORK :( ", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                String finalPassword = password.getText().toString();
+                if (email.toString().isEmpty() || password.toString().isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "There is an empty field here", Toast.LENGTH_LONG).show();
+                } else {
+                    firebaseAuth.signInWithEmailAndPassword(finalEmail, finalPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                            i.putExtra("email", email.getText().toString());
+                            startActivity(i);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(LoginActivity.this, "IT DID NOT WORK :( ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
