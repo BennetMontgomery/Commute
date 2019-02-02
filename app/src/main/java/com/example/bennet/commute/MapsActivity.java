@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -23,6 +25,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private String name;
+    private FloatingActionButton mFAB;
     private FusedLocationProviderClient mFusedLocationClient;
     private final int REQUEST_LOCATION = 4;
 
@@ -32,6 +35,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
+        mFAB = findViewById(R.id.floatingActionButton);
+        mFAB.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                System.out.println("End my suffering");
+            }
+        });
         System.out.println("email (after intent): " + name);
         setTitle("Hello " + name + "!");
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -85,7 +94,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             // Check Permissions Now
