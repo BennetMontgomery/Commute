@@ -58,10 +58,6 @@
             android:required="false" />
 
         <activity android:name=".SignUp" />
-        <activity
-            android:name=".LocationFind"
-            android:label="@string/title_activity_location_find"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LocationTrack"></activity>
     </application>
 
