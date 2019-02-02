@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuth.signInWithEmailAndPassword(finalEmail, finalPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                        Intent i = new Intent(getApplicationContext(), LocationTrack.class);
                         startActivity(i);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
