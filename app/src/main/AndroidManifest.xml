@@ -58,10 +58,10 @@
         <activity
             android:name=".SignUp"
             android:theme="@style/Commute" />
-
         <activity
             android:name=".MapsActivity"
             android:theme="@style/CommuteBar" />
+        <activity android:name=".Rewards"></activity>
     </application>
 
 </manifest>
