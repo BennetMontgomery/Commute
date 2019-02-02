@@ -54,7 +54,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mFAB = findViewById(R.id.floatingActionButton);
         mFAB.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("End my suffering");
+                /*System.out.println("End my suffering");
                 URL url;
                 StringBuffer response = new StringBuffer();
                 try {
@@ -105,7 +105,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     //Here is your json in string format
                     String responseJSON = response.toString();
                     System.out.println("responseJSON: " + responseJSON);
-                }
+                }*/
 
             }
         });
