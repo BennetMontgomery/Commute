@@ -131,8 +131,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start = "Toronto";
-                end = "Kingston";
+                start = "Kingston+ON";
+                end = "Montreal";
                 System.out.println("Time test");
                 String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&departure_time=now&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
                 String result;
