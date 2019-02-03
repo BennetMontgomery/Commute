@@ -291,7 +291,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MapsActivity.this, Profile.class);
+                Intent i = new Intent(getApplicationContext(), Profile.class);
                 startActivity(i);
             }
         });
