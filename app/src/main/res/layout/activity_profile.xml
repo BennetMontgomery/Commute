@@ -1,59 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal|center"
+    android:orientation="vertical"
     tools:context=".Profile">
 
-
     <TextView
-        android:layout_width="218dp"
-        android:layout_height="96dp"
-        android:layout_marginStart="88dp"
-        android:text="@string/score"
-        android:textSize="60sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        style="@android:style/Widget.Holo.ImageButton"
-        android:layout_width="178dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="101dp"
-        android:layout_marginTop="85dp"
-        android:layout_marginEnd="132dp"
-        android:layout_marginBottom="486dp"
-        android:contentDescription="@string/todo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorPrimary" />
-
-    <TextView
-        android:id="@+id/scoreTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/scene_points3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="89dp"
-        android:layout_marginTop="259dp"
-        android:layout_marginEnd="112dp"
-        android:text="@string/points"
-        android:textSize="60sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="center"
+        android:text="@string/username"
+        android:textSize="30dp" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="319dp"
-        android:layout_height="337dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="352dp"
-        android:layout_marginEnd="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:src="@drawable/rooster"
+        app:civ_border_color="#FFFFCF40"
+        app:civ_border_width="6dp" />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/scene_points"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/scene_points"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/scene_points2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/scene_points_value"
+        android:textColor="@color/accent_material_dark_1"
+        android:textColorLink="@color/accent_material_dark_1"
+        android:textSize="30dp" />
+
+
+</LinearLayout>

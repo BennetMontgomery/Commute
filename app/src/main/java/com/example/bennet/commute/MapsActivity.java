@@ -8,6 +8,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.provider.SyncStateContract;
 import android.support.design.widget.FloatingActionButton;
@@ -19,8 +20,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -49,6 +48,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -64,30 +64,52 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     EditText finaldest;
     Button sendInfo;
 
-    private class JSONThread implements Runnable {
-        JsonStore json;
-        URL url;
-
-        public JSONThread(URL url) {
-            this.url = url;
-        }
-
-
-        public void run() {
-            this.json = null;
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                System.out.println("Thread test");
-                json = objectMapper.readValue(url, JsonStore.class);
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public JsonStore getJsonValue() {
-            return this.json;
-        }
-    }
+//    private class JSONThread implements Runnable {
+//        JsonStore json;
+//        URL url;
+//
+//        public JSONThread(URL url) {
+//            this.url = url;
+//        }
+//
+//
+//        public void run() {
+//            this.json = null;
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            try {
+//                System.out.println("Thread test");
+//                json = objectMapper.readValue(url, JsonStore.class);
+//            } catch(Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        public JsonStore getJsonValue() {
+//            return this.json;
+//        }
+//    }
+//
+//    private class DownloadFilesTask extends AsyncTask<URL, Integer, Long> {
+//        protected Long doInBackground(URL... urls) {
+//            int count = urls.length;
+//            long totalSize = 0;
+//            for (int i = 0; i < count; i++) {
+//                totalSize += Downloader.downloadFile(urls[i]);
+//                publishProgress((int) ((i / (float) count) * 100));
+//                // Escape early if cancel() is called
+//                if (isCancelled()) break;
+//            }
+//            return totalSize;
+//        }
+//
+//        protected void onProgressUpdate(Integer... progress) {
+//            setProgressPercent(progress[0]);
+//        }
+//
+//        protected void onPostExecute(Long result) {
+//            showDialog("Downloaded " + result + " bytes");
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,66 +118,79 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         mFAB = findViewById(R.id.floatingActionButton);
+
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Time test");
-                URL url;
-                StringBuffer response = new StringBuffer();
+                String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
+                String result;
+                HttpGetRequest getRequest = new HttpGetRequest();
                 try {
-                    System.out.println("Time test 2");
-                    url = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k");
-                    JsonStore js = null;
-                    try {
-                        JSONThread thread = new JSONThread(url);
-                        new Thread(thread).start();
-
-                        while(js == null) {
-                            System.out.println("Test while");
-                            js = thread.getJsonValue();
-                        }
-                        System.out.println("Time test 3");
-                        System.out.println("Time in traffic: " + js.getRoutes()[0].getLegs()[0].getDuration_in_traffic().getValue());
-                    } catch(Exception e) {
-                        System.out.println("Fuck");
-                        e.printStackTrace();
-                    }
-                } catch (MalformedURLException e) {
-                    System.out.println("Fuck");
-                    throw new IllegalArgumentException("invalid url");
+                    result = getRequest.execute(myUrl).get();
+                    System.out.println("result: " + result);
+                } catch (ExecutionException e) {
+                    System.out.println("e: " + e);
+                } catch (InterruptedException e) {
+                    System.out.println("e: " + e);
                 }
 
-                HttpURLConnection conn = null;
-                try {
-                    conn = (HttpURLConnection) url.openConnection();
-                    conn.setDoOutput(false);
-                    conn.setDoInput(true);
-                    conn.setUseCaches(false);
-                    conn.setRequestMethod("GET");
-                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-
-                    // handle the response
-                    int status = conn.getResponseCode();
-                    if (status != 200) {
-                        throw new IOException("Post failed with error code " + status);
-                    } else {
-                        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                        String inputLine;
-                        while ((inputLine = in.readLine()) != null) {
-                            response.append(inputLine);
-                        }
-                        in.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (conn != null) {
-                        conn.disconnect();
-                    }
-
-                    //Here is your json in string format
-                    String responseJSON = response.toString();
-                }
+//                URL url;
+//                StringBuffer response = new StringBuffer();
+//                try {
+//                    System.out.println("Time test 2");
+//                    url = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k");
+//                    JsonStore js = null;
+//                    try {
+//                        JSONThread thread = new JSONThread(url);
+//                        new Thread(thread).start();
+//
+//                        while(js == null) {
+//                            System.out.println("Test while");
+//                            js = thread.getJsonValue();
+//                        }
+//                        System.out.println("Time test 3");
+//                        System.out.println("Time in traffic: " + js.getRoutes()[0].getLegs()[0].getDuration_in_traffic().getValue());
+//                    } catch(Exception e) {
+//                        System.out.println("Fuck");
+//                        e.printStackTrace();
+//                    }
+//                } catch (MalformedURLException e) {
+//                    System.out.println("Fuck");
+//                    throw new IllegalArgumentException("invalid url");
+//                }
+//
+//                HttpURLConnection conn = null;
+//                try {
+//                    conn = (HttpURLConnection) url.openConnection();
+//                    conn.setDoOutput(false);
+//                    conn.setDoInput(true);
+//                    conn.setUseCaches(false);
+//                    conn.setRequestMethod("GET");
+//                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+//
+//                    // handle the response
+//                    int status = conn.getResponseCode();
+//                    if (status != 200) {
+//                        throw new IOException("Post failed with error code " + status);
+//                    } else {
+//                        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//                        String inputLine;
+//                        while ((inputLine = in.readLine()) != null) {
+//                            response.append(inputLine);
+//                        }
+//                        in.close();
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    if (conn != null) {
+//                        conn.disconnect();
+//                    }
+//
+//                    //Here is your json in string format
+//                    String responseJSON = response.toString();
+//                }
 
             }
         });
@@ -266,20 +301,4 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    /*@Override
-    public void onLocationChanged(Location location) {
-        double latitude = location.getLatitude();
-
-        // Getting longitude of the current location
-        double longitude = location.getLongitude();
-
-        // Creating a LatLng object for the current location
-        LatLng latLng = new LatLng(latitude, longitude);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-        // Zoom in, animating the camera.
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
-
-    }*/
 }
