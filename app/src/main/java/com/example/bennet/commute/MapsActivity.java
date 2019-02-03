@@ -20,8 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -65,7 +66,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ProgressDialog progress;
     private String[] rawPaths;
     private int[] travelTimes;
-    private ImageView avatarIcon;
+    private String start;
+    private String end;
 
     EditText origin;
     EditText finaldest;
@@ -125,20 +127,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         mFAB = findViewById(R.id.floatingActionButton);
-        avatarIcon = findViewById(R.id.profile_image);
-        avatarIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Profile.class);
-                startActivity(intent);
-            }
-        });
+
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                start = "Toronto";
+                end = "Montreal";
                 System.out.println("Time test");
-                String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=Ajax&destination=Kingston&departure_time=now&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
+                String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
                 String result;
                 HttpGetRequest getRequest = new HttpGetRequest();
                 try {
@@ -156,11 +152,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         path = path.substring(path.indexOf("points") + 9, path.indexOf("},") - 1);
                         rawPaths[i] = path;
                     }
-                    for (String path : rawPaths) {
-                        List<LatLng> polyLine = PolyUtil.decode(path);
-                        mMap.addPolyline(new PolylineOptions().addAll(polyLine).color(3));
+                    for(String : rawPaths) {
+                        System.out.println(rawPaths);
                     }
-
+                    
                     travelTimes = new int[num];
                     for(int i = 0; i < num; i++) {
                         String trafficVal = result;
@@ -358,5 +353,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return count;
     }
 
+    /*public static int[] scores(int[] tt) {
+        int max =
+    }*/
 
 }
