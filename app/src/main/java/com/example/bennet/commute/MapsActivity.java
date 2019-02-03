@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,6 +67,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ProgressDialog progress;
     private String[] rawPaths;
     private int[] travelTimes;
+    private ImageView avatarIcon;
 
     EditText origin;
     EditText finaldest;
@@ -125,7 +127,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         mFAB = findViewById(R.id.floatingActionButton);
-
+        avatarIcon = findViewById(R.id.profile_image);
+        avatarIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Profile.class);
+                startActivity(intent);
+            }
+        });
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

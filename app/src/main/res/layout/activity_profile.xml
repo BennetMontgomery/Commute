@@ -8,42 +8,387 @@
     android:orientation="vertical"
     tools:context=".Profile">
 
-    <TextView
-        android:id="@+id/scene_points3"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
-        android:text="@string/username"
-        android:textSize="30dp" />
+        android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:clickable="true"
-        android:src="@drawable/rooster"
-        app:civ_border_color="#FFFFCF40"
-        app:civ_border_width="6dp" />
+        <TextView
+            android:id="@+id/scene_points3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/username"
+            android:textSize="30dp" />
 
-    <TextView
-        android:id="@+id/scene_points"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/scene_points"
-        android:textSize="30dp" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:src="@drawable/rooster"
+            app:civ_border_color="#FFFFCF40"
+            app:civ_border_width="6dp" />
 
-    <TextView
-        android:id="@+id/scene_points2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/scene_points_value"
-        android:textColor="@color/accent_material_dark_1"
-        android:textColorLink="@color/accent_material_dark_1"
-        android:textSize="30dp" />
+        <TextView
+            android:id="@+id/scene_points"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/scene_points"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/scene_points2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/scene_points_value"
+            android:textColor="@color/accent_material_dark_1"
+            android:textColorLink="@color/accent_material_dark_1"
+            android:textSize="30dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    app:cardBackgroundColor="?attr/colorPrimary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text20"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="20"
+                            android:textColor="@color/accent_material_dark_1"
+                            android:textSize="40dp" />
+
+                        <TextView
+                            android:id="@+id/text20scene"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:text="SCENE Points"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/button20"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Redeem"
+                            android:onClick="onClickBtn"
+                            android:textColor="@color/accent_material_dark_1" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    app:cardBackgroundColor="?attr/colorPrimary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text40"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="40"
+                            android:textColor="@color/accent_material_dark_1"
+                            android:textSize="40dp" />
+
+                        <TextView
+                            android:id="@+id/text40scene"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:text="SCENE Points"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/button40"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Redeem"
+                            android:onClick="onClickBtn"
+                            android:textColor="@color/accent_material_dark_1" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    app:cardBackgroundColor="?attr/colorPrimary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text60"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="60"
+                            android:textColor="@color/accent_material_dark_1"
+                            android:textSize="40dp" />
+
+                        <TextView
+                            android:id="@+id/text60scene"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:text="SCENE Points"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/button60"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClickBtn"
+                            android:text="Redeem"
+                            android:textColor="@color/accent_material_dark_1" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    app:cardBackgroundColor="?attr/colorPrimary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text80"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="80"
+                            android:textColor="@color/accent_material_dark_1"
+                            android:textSize="40dp" />
+
+                        <TextView
+                            android:id="@+id/text80scene"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:text="SCENE Points"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/button80"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Redeem"
+                            android:onClick="onClickBtn"
+                            android:textColor="@color/accent_material_dark_1" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    app:cardBackgroundColor="?attr/colorPrimary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text100"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="100"
+                            android:textColor="@color/accent_material_dark_1"
+                            android:textSize="40dp" />
+
+                        <TextView
+                            android:id="@+id/text100scene"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:text="SCENE Points"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/button100"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Redeem"
+                            android:onClick="onClickBtn"
+                            android:textColor="@color/accent_material_dark_1" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    app:cardBackgroundColor="?attr/colorPrimary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text120"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="120"
+                            android:textColor="@color/accent_material_dark_1"
+                            android:textSize="40dp" />
+
+                        <TextView
+                            android:id="@+id/text120scene"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:text="SCENE Points"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/button120"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Redeem"
+                            android:onClick="onClickBtn"
+                            android:textColor="@color/accent_material_dark_1" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    app:cardBackgroundColor="?attr/colorPrimary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text140"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="140"
+                            android:textColor="@color/accent_material_dark_1"
+                            android:textSize="40dp" />
+
+                        <TextView
+                            android:id="@+id/text140scene"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:text="SCENE Points"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/button140"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Redeem"
+                            android:onClick="onClickBtn"
+                            android:textColor="@color/accent_material_dark_1" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
 
 
 </LinearLayout>
