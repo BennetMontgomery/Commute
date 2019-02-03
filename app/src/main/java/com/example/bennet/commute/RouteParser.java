@@ -50,7 +50,7 @@ public class RouteParser {
                     }
                 }
             }
-        } else if (val.matches("\\d([\\p{Blank}][a-zA-Z]*)*")) {
+        } else if (val.matches("[0-9]*([\\p{Blank}][a-zA-Z]*)*")) {
             if (isOrigin) {
                 this.origin = val.replaceAll("[\\p{Blank}]", "+");
             } else {

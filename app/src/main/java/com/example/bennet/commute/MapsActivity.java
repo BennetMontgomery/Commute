@@ -63,6 +63,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -78,7 +79,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int[] travelTimes;
     private String start;
     private String end;
-    private ProgressBar pb;
     public JSONObject BIGDADDY;
 
     EditText origin;
@@ -187,143 +187,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         mFAB = findViewById(R.id.floatingActionButton);
-
-        mFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                start = "Kingston+ON";
-                end = "Montreal";
-                System.out.println("Time test");
-                String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&departure_time=now&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
-                String result;
-                pb = findViewById(R.id.progressBar);
-                MyAsyncTask myAsyncTask = new MyAsyncTask();
-                try {
-                    BIGDADDY = myAsyncTask.execute(myUrl).get();
-                } catch (ExecutionException e) {
-                    System.out.println(e);
-                } catch (InterruptedException e) {
-                    System.out.println(e);
-                }
-                System.out.println("WHO YO DADDY: " + BIGDADDY);
-                JSONArray route;
-                try {
-                    route = BIGDADDY.getJSONArray("routes");
-                    JSONObject singleRoute = (JSONObject) route.get(0);
-                    JSONObject overview_polyline = (JSONObject) singleRoute.get("overview_polyline");
-                    if (overview_polyline != null) {
-                        List<LatLng> polyLine = PolyUtil.decode(overview_polyline.getString("points"));
-                        mMap.addPolyline(new PolylineOptions().addAll(polyLine));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-//                HttpGetRequest getRequest = new HttpGetRequest();
-//                try {
-//                    result = getRequest.execute(myUrl).get();
-//                    result = result.replaceAll("\\p{Blank}", "");
-//                    result = result.substring(result.indexOf("routes"), result.indexOf("\"status\""));
-//                    int num = count(result, "overview_polyline");
-//                    rawPaths = new String[num];
-//                    for(int i = 0; i < num; i++) {
-//                        String path = result;
-//                        for(int j = 0; j <= i; j++) {
-//                            path = path.substring(path.indexOf("overview_polyline") + 1);
-//                        }
-//
-//                        path = path.substring(path.indexOf("points") + 9, path.indexOf("},") - 1);
-//                        rawPaths[i] = path;
-//                    }
-//                    for(String i : rawPaths) {
-//                        System.out.println(i);
-//                        List<LatLng> polyLine = PolyUtil.decode((java.lang.String) i);
-//                        mMap.addPolyline(new PolylineOptions().addAll(polyLine));
-//                    }
-//
-//                    travelTimes = new int[num];
-//                    for(int i = 0; i < num; i++) {
-//                        String trafficVal = result;
-//                        for(int j = 0; j <= i; j++) {
-//                            trafficVal = trafficVal.substring(trafficVal.indexOf("duration_in_traffic") + 1);
-//                        }
-//
-//                        trafficVal = trafficVal.substring(trafficVal.indexOf("in_traffic") + 11, trafficVal.indexOf("end_address"));
-//                        trafficVal = trafficVal.substring(trafficVal.indexOf("value") + 7, trafficVal.indexOf("},"));
-//                        travelTimes[i] = Integer.parseInt(trafficVal);
-//                    }
-//                } catch (ExecutionException e) {
-//                    System.out.println("e: " + e);
-//                } catch (InterruptedException e) {
-//                    System.out.println("e: " + e);
-//                }
-
-//                URL url;
-//                StringBuffer response = new StringBuffer();
-//                try {
-//                    System.out.println("Time test 2");
-//                    url = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k");
-//                    JsonStore js = null;
-//                    try {
-//                        JSONThread thread = new JSONThread(url);
-//                        new Thread(thread).start();
-//
-//                        while(js == null) {
-//                            System.out.println("Test while");
-//                            js = thread.getJsonValue();
-//                        }
-//                        System.out.println("Time test 3");
-//                        System.out.println("Time in traffic: " + js.getRoutes()[0].getLegs()[0].getDuration_in_traffic().getValue());
-//                    } catch(Exception e) {
-//                        System.out.println("Fuck");
-//                        e.printStackTrace();
-//                    }
-//                } catch (MalformedURLException e) {
-//                    System.out.println("Fuck");
-//                    throw new IllegalArgumentException("invalid url");
-//                }
-//
-//                HttpURLConnection conn = null;
-//                try {
-//                    conn = (HttpURLConnection) url.openConnection();
-//                    conn.setDoOutput(false);
-//                    conn.setDoInput(true);
-//                    conn.setUseCaches(false);
-//                    conn.setRequestMethod("GET");
-//                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-//
-//                    // handle the response
-//                    int status = conn.getResponseCode();
-//                    if (status != 200) {
-//                        throw new IOException("Post failed with error code " + status);
-//                    } else {
-//                        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//                        String inputLine;
-//                        while ((inputLine = in.readLine()) != null) {
-//                            response.append(inputLine);
-//                        }
-//                        in.close();
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                } finally {
-//                    if (conn != null) {
-//                        conn.disconnect();
-//                    }
-//
-//                    //Here is your json in string format
-//                    String responseJSON = response.toString();
-//                }
-
-            }
-        });
-        System.out.println("email (after intent): " + name);
-        setTitle("Hello " + name + "!");
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
         origin = findViewById(R.id.editText);
         finaldest = findViewById(R.id.editText2);
         sendInfo = findViewById(R.id.go_button);
@@ -342,6 +205,79 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+        mFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RouteParser rp = new RouteParser();
+                if (rp.parse(origin.getText().toString(), true) && rp.parse(finaldest.getText().toString(), false)) {
+                    rp.parse(origin.getText().toString(), true);
+                    rp.parse(finaldest.getText().toString(), false);
+                    start = rp.getOrigin();
+                    end = rp.getDestination();
+                }
+                else {
+                    start = "Kingston+ON";
+                    end = "Montreal";
+                }
+                System.out.println("Time test");
+                String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&departure_time=now&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
+                MyAsyncTask myAsyncTask = new MyAsyncTask();
+                try {
+                    BIGDADDY = myAsyncTask.execute(myUrl).get();
+                } catch (ExecutionException e) {
+                    System.out.println(e);
+                } catch (InterruptedException e) {
+                    System.out.println(e);
+                }
+                System.out.println("WHO YO DADDY: " + BIGDADDY);
+                JSONArray routes;
+                try {
+                    routes = BIGDADDY.getJSONArray("routes");
+                    int bestValue = 0;
+                    int bestRoute = 0;
+                    for (int i = 0; i < routes.length(); i++) {
+                        JSONObject singleRoute = (JSONObject) routes.get(i);
+                        JSONArray legs = (JSONArray) singleRoute.get("legs");
+                        JSONObject singleLeg = (JSONObject) legs.get(0);
+                        JSONObject DIT = (JSONObject) singleLeg.get("duration_in_traffic");
+                        System.out.println("DIT: " + DIT);
+                        if (Integer.parseInt(DIT.getString("value")) >= bestValue) {
+                            bestRoute = i;
+                        }
+                    }
+                    routes = BIGDADDY.getJSONArray("routes");
+                    for (int i = 0; i < routes.length(); i++) {
+                        int best = Color.rgb(0.133f, 0.757f, 0.02f);
+                        JSONObject singleRoute = (JSONObject) routes.get(i);
+                        JSONObject overview_polyline = (JSONObject) singleRoute.get("overview_polyline");
+                        if (overview_polyline != null) {
+                            List<LatLng> polyLine = PolyUtil.decode(overview_polyline.getString("points"));
+                            if (i == bestRoute) {
+                                mMap.addPolyline(new PolylineOptions().addAll(polyLine).color(best));
+                            }
+                            else {
+                                mMap.addPolyline(new PolylineOptions().addAll(polyLine));
+                            }
+
+                        }
+
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        System.out.println("email (after intent): " + name);
+        setTitle("Hello " + name + "!");
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+
     }
 
 
