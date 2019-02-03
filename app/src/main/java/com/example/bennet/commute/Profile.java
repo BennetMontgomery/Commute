@@ -19,38 +19,95 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        scenePts = findViewById(R.id.scene_points);
-        scene = Integer.parseInt(scenePts.toString());
+        scenePts = findViewById(R.id.scene_points2);
+        scene = Integer.parseInt(scenePts.getText().toString());
 
         btn20 = findViewById(R.id.button20);
-        btn40 = findViewById(R.id.button20);
-        btn60 = findViewById(R.id.button20);
-        btn80 = findViewById(R.id.button20);
-        btn100 = findViewById(R.id.button20);
-        btn120 = findViewById(R.id.button20);
-        btn140 = findViewById(R.id.button20);
+        btn40 = findViewById(R.id.button40);
+        btn60 = findViewById(R.id.button60);
+        btn80 = findViewById(R.id.button80);
+        btn100 = findViewById(R.id.button100);
+        btn120 = findViewById(R.id.button120);
+        btn140 = findViewById(R.id.button140);
 
-    }
-
-    public void onClickBtn(View v)
-    {
-        while(scene>=0) {
-            if (v == btn20) {
-                scenePts.setText(scene - 20);
-            } else if (v == btn40) {
-                scenePts.setText(scene - 40);
-            } else if (v == btn60) {
-                scenePts.setText(scene - 60);
-            } else if (v == btn80) {
-                scenePts.setText(scene - 80);
-            } else if (v == btn100) {
-                scenePts.setText(scene - 100);
-            } else if (v == btn120) {
-                scenePts.setText(scene - 120);
-            } else if (v == btn140) {
-                scenePts.setText(scene - 140);
+        btn20.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scene = Integer.parseInt(scenePts.getText().toString());
+                if(scene - 20 >= 0) {
+                    scenePts.setText(Integer.toString(scene - 20));
+                }
+                else {
+                    Toast.makeText(Profile.this, "You don't have enough", Toast.LENGTH_LONG).show();
+                }
             }
-        }
-        Toast.makeText(Profile.this, "You don't have enough", Toast.LENGTH_LONG).show();
+        });
+        btn40.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scene = Integer.parseInt(scenePts.getText().toString());
+                if(scene - 40 >= 0) {
+                    scenePts.setText(Integer.toString(scene - 40));                }
+                else {
+                    Toast.makeText(Profile.this, "You don't have enough", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn60.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scene = Integer.parseInt(scenePts.getText().toString());
+                if(scene - 60 >= 0) {
+                    scenePts.setText(Integer.toString(scene - 60));                }
+                else {
+                    Toast.makeText(Profile.this, "You don't have enough", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn80.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scene = Integer.parseInt(scenePts.getText().toString());
+                if(scene - 80 >= 0) {
+                    scenePts.setText(Integer.toString(scene - 80));                }
+                else {
+                    Toast.makeText(Profile.this, "You don't have enough", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn100.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scene = Integer.parseInt(scenePts.getText().toString());
+                if(scene - 100 >= 0) {
+                    scenePts.setText(Integer.toString(scene - 100));                }
+                else {
+                    Toast.makeText(Profile.this, "You don't have enough", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn120.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scene = Integer.parseInt(scenePts.getText().toString());
+                if(scene - 120 >= 0) {
+                    scenePts.setText(Integer.toString(scene - 120));                }
+                else {
+                    Toast.makeText(Profile.this, "You don't have enough", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn140.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scene = Integer.parseInt(scenePts.getText().toString());
+                if(scene - 140 >= 0) {
+                    scenePts.setText(Integer.toString(scene - 140));                }
+                else {
+                    Toast.makeText(Profile.this, "You don't have enough", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 }
