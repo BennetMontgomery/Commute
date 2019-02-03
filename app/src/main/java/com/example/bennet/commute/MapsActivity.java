@@ -191,7 +191,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         finaldest = findViewById(R.id.editText2);
         sendInfo = findViewById(R.id.go_button);
 
-        sendInfo.setOnClickListener(new View.OnClickListener() {
+        mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RouteParser rp = new RouteParser();
@@ -205,7 +205,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
-        mFAB.setOnClickListener(new View.OnClickListener() {
+        sendInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RouteParser rp = new RouteParser();
