@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -36,6 +37,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.maps.android.PolyUtil;
 
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -48,6 +50,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -122,6 +125,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                List<LatLng> polyLine = PolyUtil.decode("e`miGhmocN{OiAsAiLeDwh@qLmn@oJir@sC}RyGpCqd@xJsXlSeq@dKgb@gIa]cMcc@}r@I_x@oU{g@_a@mSeb@}b@kQ_AmXzScoBxTwvBbR{u@tHiL}NeC}bBkP}hBipA{xJux@wyCeg@uvGtYqbCkVos@mjBgiDodA_{ByaA{lCit@o{Bym@evEq`AgoGyMscBdBqcB`CkhCocA}yGmu@waFkCixBno@ycBxQc}@kOkvCol@keJmz@qnCy]uaCoY{wHevCusUicFg`_@}c@}_JijAeqHbImpAnMqzAmd@ugDim@{fBqLasBsx@omCB}lDvHacAlSql@zCqcA_nAagLsp@mkKg]k_Deh@mpDkf@e`Buf@mgByReeAkm@wv@q{@i_Gy|@miAkQki@gLioBsfAuaFyp@arAkf@aoB{wAotFkDmlDet@mkBovAu}D}vBe}FceBymKirBuiM}z@q|C}eAcbHaa@goCg@uz@zYmgBsJk|BcmBa}WiaBuiU_a@o{Byq@epCtBshAD_s@iX{yAiPgrAiC_}ByTsqGmWgtQuYsrOwNweLaO_vBzaAqoDvXwjCt_@cdCrCcaBiWuw@_l@waC_c@kvCi_AqlCmi@ki@ynA{nDmk@svHmUm}GwYoiGgGgzAs]u{Akh@aqFuHogBtJ_bARkrAoc@}iCc{@_aDqlBmrGcL_pCr@ynBwWmmBuQspAuZmu@ox@w|A_b@isAs_AmsAojB_uCanBqh@gjBcrAucBouAk~BchCiiAwjAa_@siCxDquBql@abB}U}RymAbCog@oNuoB{{CahAog@}]i^mpAkwCqcEq`HunAabByeB_jCybIo`K_^sq@_Y_eB_cActB_eDouFsn@}|@{q@s]od@kYy`@ip@ebEivHctAggCguEu`Jg{CcqHmbDgzKgcE}tMa}BemH}oAo^c~DwjMuhDciL_lCuaKuy@mjFxu@cjDf`@ajB`HwtBiBulFwr@_wC{L_p@kCojCsLojC}Y}dBc}BosHwmBwzEabEsyKah@yn@_h@_yAcz@itC{bBq~Fuh@_mBqU{QmXaRke@{lAabB}~Dmv@m|BecAiiDovEk}Lm_E}fFoe@_aA_tAkgEibDikKys@e|Byq@ogA}mAsfBqr@g_B_Sgj@eDucBsk@sxC_aA_~@sYu_AshB{{Hs`@qrEefAa{Gui@y{CvJ_vGwF}|@fBw|DrDmcE`]cgBqLenAqv@i}AqiBo}D}a@kP{q@gbAmUw]eOgOkNdUip@gr@aKqRxDwJ");
+                mMap.addPolyline(new PolylineOptions().addAll(polyLine));
                 System.out.println("Time test");
                 String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
                 String result;
