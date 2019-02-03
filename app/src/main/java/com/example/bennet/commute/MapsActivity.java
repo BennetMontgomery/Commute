@@ -47,6 +47,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.Connection;
@@ -204,44 +206,56 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     System.out.println(e);
                 }
                 System.out.println("WHO YO DADDY: " + BIGDADDY);
-                HttpGetRequest getRequest = new HttpGetRequest();
+                JSONArray route;
                 try {
-                    result = getRequest.execute(myUrl).get();
-                    result = result.replaceAll("\\p{Blank}", "");
-                    result = result.substring(result.indexOf("routes"), result.indexOf("\"status\""));
-                    int num = count(result, "overview_polyline");
-                    rawPaths = new String[num];
-                    for(int i = 0; i < num; i++) {
-                        String path = result;
-                        for(int j = 0; j <= i; j++) {
-                            path = path.substring(path.indexOf("overview_polyline") + 1);
-                        }
-
-                        path = path.substring(path.indexOf("points") + 9, path.indexOf("},") - 1);
-                        rawPaths[i] = path;
-                    }
-                    for(String i : rawPaths) {
-                        System.out.println(i);
-                        List<LatLng> polyLine = PolyUtil.decode((java.lang.String) i);
+                    route = BIGDADDY.getJSONArray("routes");
+                    JSONObject singleRoute = (JSONObject) route.get(0);
+                    JSONObject overview_polyline = (JSONObject) singleRoute.get("overview_polyline");
+                    if (overview_polyline != null) {
+                        List<LatLng> polyLine = PolyUtil.decode(overview_polyline.getString("points"));
                         mMap.addPolyline(new PolylineOptions().addAll(polyLine));
                     }
-
-                    travelTimes = new int[num];
-                    for(int i = 0; i < num; i++) {
-                        String trafficVal = result;
-                        for(int j = 0; j <= i; j++) {
-                            trafficVal = trafficVal.substring(trafficVal.indexOf("duration_in_traffic") + 1);
-                        }
-
-                        trafficVal = trafficVal.substring(trafficVal.indexOf("in_traffic") + 11, trafficVal.indexOf("end_address"));
-                        trafficVal = trafficVal.substring(trafficVal.indexOf("value") + 7, trafficVal.indexOf("},"));
-                        travelTimes[i] = Integer.parseInt(trafficVal);
-                    }
-                } catch (ExecutionException e) {
-                    System.out.println("e: " + e);
-                } catch (InterruptedException e) {
-                    System.out.println("e: " + e);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+//                HttpGetRequest getRequest = new HttpGetRequest();
+//                try {
+//                    result = getRequest.execute(myUrl).get();
+//                    result = result.replaceAll("\\p{Blank}", "");
+//                    result = result.substring(result.indexOf("routes"), result.indexOf("\"status\""));
+//                    int num = count(result, "overview_polyline");
+//                    rawPaths = new String[num];
+//                    for(int i = 0; i < num; i++) {
+//                        String path = result;
+//                        for(int j = 0; j <= i; j++) {
+//                            path = path.substring(path.indexOf("overview_polyline") + 1);
+//                        }
+//
+//                        path = path.substring(path.indexOf("points") + 9, path.indexOf("},") - 1);
+//                        rawPaths[i] = path;
+//                    }
+//                    for(String i : rawPaths) {
+//                        System.out.println(i);
+//                        List<LatLng> polyLine = PolyUtil.decode((java.lang.String) i);
+//                        mMap.addPolyline(new PolylineOptions().addAll(polyLine));
+//                    }
+//
+//                    travelTimes = new int[num];
+//                    for(int i = 0; i < num; i++) {
+//                        String trafficVal = result;
+//                        for(int j = 0; j <= i; j++) {
+//                            trafficVal = trafficVal.substring(trafficVal.indexOf("duration_in_traffic") + 1);
+//                        }
+//
+//                        trafficVal = trafficVal.substring(trafficVal.indexOf("in_traffic") + 11, trafficVal.indexOf("end_address"));
+//                        trafficVal = trafficVal.substring(trafficVal.indexOf("value") + 7, trafficVal.indexOf("},"));
+//                        travelTimes[i] = Integer.parseInt(trafficVal);
+//                    }
+//                } catch (ExecutionException e) {
+//                    System.out.println("e: " + e);
+//                } catch (InterruptedException e) {
+//                    System.out.println("e: " + e);
+//                }
 
 //                URL url;
 //                StringBuffer response = new StringBuffer();
