@@ -66,7 +66,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+import static java.nio.file.Paths.get;
+
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnPolylineClickListener {
 
     private GoogleMap mMap;
     private FloatingActionButton mFAB;
@@ -243,6 +245,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         System.out.println("DIT: " + DIT);
                         if (Integer.parseInt(DIT.getString("value")) >= bestValue) {
                             bestRoute = i;
+                            bestValue = Integer.parseInt(DIT.getString("value"));
                         }
                     }
                     routes = BIGDADDY.getJSONArray("routes");
@@ -252,13 +255,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         JSONObject overview_polyline = (JSONObject) singleRoute.get("overview_polyline");
                         if (overview_polyline != null) {
                             List<LatLng> polyLine = PolyUtil.decode(overview_polyline.getString("points"));
+                            JSONArray legs = (JSONArray) singleRoute.get("legs");
+                            JSONObject singleLeg = (JSONObject) legs.get(0);
+                            JSONObject DIT = (JSONObject) singleLeg.get("duration_in_traffic");
+                            float score = (((float)Integer.parseInt(DIT.getString("value")))/(float)bestValue)*100 - (((float)Integer.parseInt(DIT.getString("value"))/(float)bestValue)%10);
+                            System.out.println("Line score " + score);
                             if (i == bestRoute) {
-                                mMap.addPolyline(new PolylineOptions().addAll(polyLine).color(best));
+                                mMap.addPolyline(new PolylineOptions().clickable(true).addAll(polyLine).color(best)).setTag(score);
                             }
                             else {
-                                mMap.addPolyline(new PolylineOptions().addAll(polyLine));
+                                mMap.addPolyline(new PolylineOptions().clickable(true).addAll(polyLine)).setTag(score);
                             }
 
+                            mMap.setOnPolylineClickListener(MapsActivity.this);
                         }
 
 
@@ -280,6 +289,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+
+    @Override
+    public void onPolylineClick(Polyline polyline) {
+        Toast.makeText(this, "Points for this route: " + polyline.getTag(), Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * Manipulates the map once available.
