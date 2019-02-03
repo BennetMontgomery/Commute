@@ -10,51 +10,57 @@ public class RouteParser {
         val = val.trim();
         val = val.replaceAll("\\s{2,}", " ");
 
-        if(val.matches("(-|)[0-9]*(([.][0-9]*)|) (-|)[0-9]*(([.][0-9]*)|)")) {
+        if (val.matches("(-|)[0-9]*(([.][0-9]*)|) (-|)[0-9]*(([.][0-9]*)|)")) {
             if (isOrigin) {
-                this.origin = "latlong " + val;
+                this.origin = val.substring(0, val.indexOf(" ")) + "," + val.substring(val.indexOf(" ") + 1);
             } else {
-                this.destination = "latlong " + val;
+                this.destination = val.substring(0, val.indexOf(" ")) + "," + val.substring(val.indexOf(" ") + 1);
             }
-        } else if(val.matches("[0-9]*(([.][0-9]*)|)[ ]*(n|N|s|S) [0-9]*(([.][0-9]*)|)[ ]*(e|E|w|W)")){
-            if(val.contains("n") || val.contains("N")) {
-                if(val.contains("e") || val.contains("E")) {
-                    if(isOrigin) {
-                        this.origin = "latlong " + val.replaceAll("[ ]*(n|N|e|E)[ ]*", " ");
+        } else if (val.matches("[0-9]*(([.][0-9]*)|)[ ]*(n|N|s|S) [0-9]*(([.][0-9]*)|)[ ]*(e|E|w|W)")) {
+            if (val.contains("n") || val.contains("N")) {
+                if (val.contains("e") || val.contains("E")) {
+                    if (isOrigin) {
+                        this.origin = val.replaceAll("[ ]*(n|N|e|E)[ ]*", ",");
                     } else {
-                        this.destination = "latlong " + val.replaceAll("[ ]*(n|N|e|E)[ ]*", " ");
+                        this.destination = val.replaceAll("[ ]*(n|N|e|E)[ ]*", ",");
                     }
                 } else {
                     val = val.replaceAll("[ ]*(n|N|w|W)[ ]*", " ");
                     String[] array = val.split(" ");
-                    if(isOrigin) {
-                        this.origin = "latlong " + array[0] + " -" + array[1];
+                    if (isOrigin) {
+                        this.origin = array[0] + ",-" + array[1];
                     } else {
-                        this.destination = "latlong " + array[0] + " -" + array[1];
+                        this.destination = array[0] + ",-" + array[1];
                     }
                 }
             } else {
-                if(val.contains("e") || val.contains("E")) {
-                    if(isOrigin) {
-                        this.origin = "latlong -" + val.replaceAll("[ ]*(s|S|e|E)[ ]*", " ");
+                if (val.contains("e") || val.contains("E")) {
+                    if (isOrigin) {
+                        this.origin = "-" + val.replaceAll("[ ]*(s|S|e|E)[ ]*", ",");
                     } else {
-                        this.destination = "latlong -" + val.replaceAll("[ ]*(s|S|e|E)[ ]*", " ");
+                        this.destination = "-" + val.replaceAll("[ ]*(s|S|e|E)[ ]*", ",");
                     }
                 } else {
                     val = val.replaceAll("[ ]*(s|S|w|W)[ ]*", " ");
                     String[] array = val.split(" ");
-                    if(isOrigin) {
-                        this.origin = "latlong -" + array[0] + " -" + array[1];
+                    if (isOrigin) {
+                        this.origin = "-" + array[0] + ",-" + array[1];
                     } else {
-                        this.destination = "latlong -" + array[0] + " -" + array[1];
+                        this.destination = "-" + array[0] + ",-" + array[1];
                     }
                 }
             }
-        } else if (val.matches("[0-9]*([\\p{Blank}][a-zA-Z]*)*")) {
+        } else if (val.matches("\\d([\\p{Blank}][a-zA-Z]*)*")) {
             if (isOrigin) {
-                this.origin = "address " + val;
+                this.origin = val.replaceAll("[\\p{Blank}]", "+");
             } else {
-                this.destination = "address " + val;
+                this.destination = val.replaceAll("[\\p{Blank}]", "+");
+            }
+        } else if (val.matches("([a-zA-Z]*[\\p{Blank}]*[a-zA-Z]*)*")) {
+            if(isOrigin) {
+                this.origin = val.replaceAll("[\\p{Blank}]", "+");
+            } else {
+                this.destination = val.replaceAll("[\\p{Blank}]", "+");
             }
         } else {
             return false;
