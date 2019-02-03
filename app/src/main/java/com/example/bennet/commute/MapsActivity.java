@@ -1,6 +1,7 @@
 package com.example.bennet.commute;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -33,6 +35,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.json.JSONObject;
@@ -55,10 +58,36 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private final int REQUEST_LOCATION = 4;
     private JSONObject mapData;
     private Button goButton;
+    private ProgressDialog progress;
 
     EditText origin;
     EditText finaldest;
     Button sendInfo;
+
+    private class JSONThread implements Runnable {
+        JsonStore json;
+        URL url;
+
+        public JSONThread(URL url) {
+            this.url = url;
+        }
+
+
+        public void run() {
+            this.json = null;
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                System.out.println("Thread test");
+                json = objectMapper.readValue(url, JsonStore.class);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public JsonStore getJsonValue() {
+            return this.json;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,24 +97,31 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         String name = intent.getStringExtra("name");
         mFAB = findViewById(R.id.floatingActionButton);
         mFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                /*System.out.println("End my suffering");
+                System.out.println("Time test");
                 URL url;
                 StringBuffer response = new StringBuffer();
                 try {
+                    System.out.println("Time test 2");
                     url = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k");
-                    System.out.println("URL: " + url.toString());
+                    JsonStore js = null;
                     try {
-                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                        StrictMode.setThreadPolicy(policy);
-                        String jsonString = Jsoup.connect(url.toString()).ignoreContentType(true).execute().body();
-                        System.out.println("JSON: " + jsonString);
-                        JsonParser jp = new JsonParser();
-                        JsonElement json = jp.parse(jsonString);
-                    } catch(IOException e) {
+                        JSONThread thread = new JSONThread(url);
+                        new Thread(thread).start();
+
+                        while(js == null) {
+                            System.out.println("Test while");
+                            js = thread.getJsonValue();
+                        }
+                        System.out.println("Time test 3");
+                        System.out.println("Time in traffic: " + js.getRoutes()[0].getLegs()[0].getDuration_in_traffic().getValue());
+                    } catch(Exception e) {
+                        System.out.println("Fuck");
                         e.printStackTrace();
                     }
                 } catch (MalformedURLException e) {
+                    System.out.println("Fuck");
                     throw new IllegalArgumentException("invalid url");
                 }
 
@@ -119,8 +155,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     //Here is your json in string format
                     String responseJSON = response.toString();
-                    System.out.println("responseJSON: " + responseJSON);
-                }*/
+                }
 
             }
         });
@@ -214,7 +249,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 // Logic to handle location object
-
                                 double latitude = location.getLatitude();
 
                                 // Getting longitude of the current location
@@ -227,12 +261,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
                             }
                             System.out.println("getLastLocation: " + location.toString());
-
                         }
                     });
         }
     }
-
 
     /*@Override
     public void onLocationChanged(Location location) {
