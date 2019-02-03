@@ -71,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent i = new Intent(getApplicationContext(), MapsActivity.class);
                                     i.putExtra("name", name);
                                     startActivity(i);
-
                                 }
 
                                 @Override
