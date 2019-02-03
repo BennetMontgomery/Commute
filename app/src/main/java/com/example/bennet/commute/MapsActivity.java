@@ -3,8 +3,12 @@ package com.example.bennet.commute;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.StrictMode;
+import android.provider.SyncStateContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -145,8 +149,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -161,7 +163,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                            String[] permissions,
                                            int[] grantResults) {
         if (requestCode == REQUEST_LOCATION) {
-            if(grantResults.length == 1
+            if (grantResults.length == 1
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We can now safely use the API we requested access to
                 try {
@@ -173,8 +175,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     // Got last known location. In some rare situations this can be null.
                                     if (location != null) {
                                         // Logic to handle location object
+                                        System.out.println("getLastLocation: " + location.toString());
                                     }
-                                    System.out.println("getLastLocation: " + location.toString());;
+
                                 }
                             });
                 } catch (SecurityException e) {
@@ -206,16 +209,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 // Logic to handle location object
+
+                                double latitude = location.getLatitude();
+
+                                // Getting longitude of the current location
+                                double longitude = location.getLongitude();
+
+                                // Creating a LatLng object for the current location
+                                LatLng latLng = new LatLng(latitude, longitude);
+
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                             }
-                            System.out.println("getLastLocation: " + location.toString());;
+                            System.out.println("getLastLocation: " + location.toString());
+
                         }
                     });
         }
-
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
+
+
+    /*@Override
+    public void onLocationChanged(Location location) {
+        double latitude = location.getLatitude();
+
+        // Getting longitude of the current location
+        double longitude = location.getLongitude();
+
+        // Creating a LatLng object for the current location
+        LatLng latLng = new LatLng(latitude, longitude);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        // Zoom in, animating the camera.
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+
+    }*/
 }
