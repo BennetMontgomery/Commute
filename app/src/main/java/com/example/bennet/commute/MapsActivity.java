@@ -22,8 +22,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -138,10 +136,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<LatLng> polyLine = PolyUtil.decode("e`miGhmocN{OiAsAiLeDwh@qLmn@oJir@sC}RyGpCqd@xJsXlSeq@dKgb@gIa]cMcc@}r@I_x@oU{g@_a@mSeb@}b@kQ_AmXzScoBxTwvBbR{u@tHiL}NeC}bBkP}hBipA{xJux@wyCeg@uvGtYqbCkVos@mjBgiDodA_{ByaA{lCit@o{Bym@evEq`AgoGyMscBdBqcB`CkhCocA}yGmu@waFkCixBno@ycBxQc}@kOkvCol@keJmz@qnCy]uaCoY{wHevCusUicFg`_@}c@}_JijAeqHbImpAnMqzAmd@ugDim@{fBqLasBsx@omCB}lDvHacAlSql@zCqcA_nAagLsp@mkKg]k_Deh@mpDkf@e`Buf@mgByReeAkm@wv@q{@i_Gy|@miAkQki@gLioBsfAuaFyp@arAkf@aoB{wAotFkDmlDet@mkBovAu}D}vBe}FceBymKirBuiM}z@q|C}eAcbHaa@goCg@uz@zYmgBsJk|BcmBa}WiaBuiU_a@o{Byq@epCtBshAD_s@iX{yAiPgrAiC_}ByTsqGmWgtQuYsrOwNweLaO_vBzaAqoDvXwjCt_@cdCrCcaBiWuw@_l@waC_c@kvCi_AqlCmi@ki@ynA{nDmk@svHmUm}GwYoiGgGgzAs]u{Akh@aqFuHogBtJ_bARkrAoc@}iCc{@_aDqlBmrGcL_pCr@ynBwWmmBuQspAuZmu@ox@w|A_b@isAs_AmsAojB_uCanBqh@gjBcrAucBouAk~BchCiiAwjAa_@siCxDquBql@abB}U}RymAbCog@oNuoB{{CahAog@}]i^mpAkwCqcEq`HunAabByeB_jCybIo`K_^sq@_Y_eB_cActB_eDouFsn@}|@{q@s]od@kYy`@ip@ebEivHctAggCguEu`Jg{CcqHmbDgzKgcE}tMa}BemH}oAo^c~DwjMuhDciL_lCuaKuy@mjFxu@cjDf`@ajB`HwtBiBulFwr@_wC{L_p@kCojCsLojC}Y}dBc}BosHwmBwzEabEsyKah@yn@_h@_yAcz@itC{bBq~Fuh@_mBqU{QmXaRke@{lAabB}~Dmv@m|BecAiiDovEk}Lm_E}fFoe@_aA_tAkgEibDikKys@e|Byq@ogA}mAsfBqr@g_B_Sgj@eDucBsk@sxC_aA_~@sYu_AshB{{Hs`@qrEefAa{Gui@y{CvJ_vGwF}|@fBw|DrDmcE`]cgBqLenAqv@i}AqiBo}D}a@kP{q@gbAmUw]eOgOkNdUip@gr@aKqRxDwJ");
-                mMap.addPolyline(new PolylineOptions().addAll(polyLine));
+
                 System.out.println("Time test");
-                String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&departure_time=now&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
+                String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=Ajax&destination=Kingston&departure_time=now&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
                 String result;
                 HttpGetRequest getRequest = new HttpGetRequest();
                 try {
@@ -158,6 +155,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         path = path.substring(path.indexOf("points") + 9, path.indexOf("},") - 1);
                         rawPaths[i] = path;
+                    }
+                    for (String path : rawPaths) {
+                        List<LatLng> polyLine = PolyUtil.decode(path);
+                        mMap.addPolyline(new PolylineOptions().addAll(polyLine).color(3));
                     }
 
                     travelTimes = new int[num];
