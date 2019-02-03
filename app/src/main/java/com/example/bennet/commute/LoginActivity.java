@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String finalEmail = email.getText().toString();
+                final String finalEmail = email.getText().toString();
                 String finalPassword = password.getText().toString();
                 if (email.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
                     Toast.makeText(LoginActivity.this, "There is an empty field here", Toast.LENGTH_LONG).show();
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                                     User userR = dataSnapshot.getValue(User.class);
                                     String name = userR.getNames();
                                     Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                                    i.putExtra("name", name);
+                                    i.putExtra("name", finalEmail);
                                     startActivity(i);
                                 }
 

@@ -87,6 +87,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     EditText origin;
     EditText finaldest;
     Button sendInfo;
+    String name;
 
 //    private class JSONThread implements Runnable {
 //        JsonStore json;
@@ -188,7 +189,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
+        name = intent.getStringExtra("name");
         mFAB = findViewById(R.id.floatingActionButton);
         origin = findViewById(R.id.editText);
         finaldest = findViewById(R.id.editText2);
@@ -292,6 +293,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), Profile.class);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });

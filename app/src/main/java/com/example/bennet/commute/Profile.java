@@ -1,5 +1,6 @@
 package com.example.bennet.commute;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +10,9 @@ import android.widget.Toast;
 
 public class Profile extends AppCompatActivity {
 
-    TextView scenePts;
+    TextView scenePts, namer;
     int scene;
-
+String name;
     private Button btn20, btn40, btn60, btn80, btn100, btn120, btn140;
 
 
@@ -22,6 +23,9 @@ public class Profile extends AppCompatActivity {
         scenePts = findViewById(R.id.scene_points2);
         scene = Integer.parseInt(scenePts.getText().toString());
 
+        namer = findViewById(R.id.scene_points3);
+
+
         btn20 = findViewById(R.id.button20);
         btn40 = findViewById(R.id.button40);
         btn60 = findViewById(R.id.button60);
@@ -29,6 +33,12 @@ public class Profile extends AppCompatActivity {
         btn100 = findViewById(R.id.button100);
         btn120 = findViewById(R.id.button120);
         btn140 = findViewById(R.id.button140);
+
+        Intent intent = getIntent();
+        name = intent.getStringExtra("name");
+        namer.setText(name);
+
+        System.out.println(name + " hello");
 
         btn20.setOnClickListener(new View.OnClickListener() {
             @Override
