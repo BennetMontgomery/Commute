@@ -76,6 +76,13 @@
                 android:layout_weight="1"
                 android:text="@string/cancel_button" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

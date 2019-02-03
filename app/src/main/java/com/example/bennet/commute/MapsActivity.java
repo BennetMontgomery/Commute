@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.SyncStateContract;
 import android.support.design.widget.FloatingActionButton;
@@ -20,9 +21,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -41,6 +41,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.maps.android.PolyUtil;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.Connection;
@@ -48,10 +54,12 @@ import org.jsoup.Connection.Response;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -68,6 +76,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int[] travelTimes;
     private String start;
     private String end;
+    private ProgressBar pb;
+    public JSONObject BIGDADDY;
 
     EditText origin;
     EditText finaldest;
@@ -120,8 +130,56 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        }
 //    }
 
+    class MyAsyncTask extends AsyncTask<String, Integer, JSONObject> {
+        private JSONObject jsonObject;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        public void onPostExecute(JSONObject result) {
+            super.onPostExecute(result);
+            //System.out.println("SLUT FOR JSON: " + jsonObject); //use jsonObject here
+
+        }
+
+        @Override
+        protected JSONObject doInBackground(final String... args) {
+            try {
+                Looper.prepare();
+                System.out.println("Time test");
+                String myUrl = args[0];
+
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost(myUrl);
+                httpPost.setEntity(new UrlEncodedFormEntity(new ArrayList<NameValuePair>()));
+                HttpEntity httpEntity = httpClient.execute(httpPost).getEntity();
+
+                InputStream stream = httpEntity.getContent();
+                BufferedReader bReader = new BufferedReader(new InputStreamReader(stream, "utf-8"), 8);
+                StringBuilder sBuilder = new StringBuilder();
+
+                String line = null;
+                while ((line = bReader.readLine()) != null) {
+                    sBuilder.append(line + "\n");
+                }
+
+                stream.close();
+                jsonObject = new JSONObject(sBuilder.toString());
+                BIGDADDY = new JSONObject(sBuilder.toString());
+                System.out.println("In try of ASYNC! JSON OBJ: " + jsonObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("Returning: " + jsonObject);
+            return jsonObject;
+        }
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         Intent intent = getIntent();
@@ -136,6 +194,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 System.out.println("Time test");
                 String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&departure_time=now&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
                 String result;
+                pb = findViewById(R.id.progressBar);
+                MyAsyncTask myAsyncTask = new MyAsyncTask();
+                try {
+                    BIGDADDY = myAsyncTask.execute(myUrl).get();
+                } catch (ExecutionException e) {
+                    System.out.println(e);
+                } catch (InterruptedException e) {
+                    System.out.println(e);
+                }
+                System.out.println("WHO YO DADDY: " + BIGDADDY);
                 HttpGetRequest getRequest = new HttpGetRequest();
                 try {
                     result = getRequest.execute(myUrl).get();
@@ -154,6 +222,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                     for(String i : rawPaths) {
                         System.out.println(i);
+                        List<LatLng> polyLine = PolyUtil.decode((java.lang.String) i);
+                        mMap.addPolyline(new PolylineOptions().addAll(polyLine));
                     }
 
                     travelTimes = new int[num];
