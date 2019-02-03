@@ -292,7 +292,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MapsActivity.this, Profile.class);
-
+                startActivity(i);
             }
         });
 
