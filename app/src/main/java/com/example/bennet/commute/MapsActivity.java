@@ -132,9 +132,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 start = "Toronto";
-                end = "Montreal";
+                end = "Kingston";
                 System.out.println("Time test");
-                String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
+                String myUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&departure_time=now&alternatives=true&key=AIzaSyCTXdNtnh6_yKnLLwHo_efKxOvRLWzxg0k";
                 String result;
                 HttpGetRequest getRequest = new HttpGetRequest();
                 try {
@@ -152,10 +152,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         path = path.substring(path.indexOf("points") + 9, path.indexOf("},") - 1);
                         rawPaths[i] = path;
                     }
-                    for(String : rawPaths) {
-                        System.out.println(rawPaths);
+                    for(String i : rawPaths) {
+                        System.out.println(i);
                     }
-                    
+
                     travelTimes = new int[num];
                     for(int i = 0; i < num; i++) {
                         String trafficVal = result;
